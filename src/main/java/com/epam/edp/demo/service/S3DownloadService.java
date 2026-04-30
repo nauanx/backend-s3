@@ -25,16 +25,16 @@ public class S3DownloadService {
         this.s3Client = s3Client;
     }
 
-    public String getTextFileContent(String fileName) throws IOException {
-        LOGGER.debug("Attempting to download file from S3: " + fileName + " from bucket: " + bucketName);
+    public String getTextFileContent(String key) throws IOException {
+        LOGGER.debug("Attempting to download file from S3: " + key + " from bucket: " + bucketName);
         GetObjectRequest request = GetObjectRequest.builder()
                 .bucket(bucketName)
-                .key(fileName)
+                .key(key)
                 .build();
 
         ResponseInputStream<GetObjectResponse> response = s3Client.getObject(request);
         String content = new String(response.readAllBytes());
-        System.out.println("Content of the file from S3: " + content);
+        LOGGER.debug("Content of the file from S3: " + content);
         return content;
     }
 
