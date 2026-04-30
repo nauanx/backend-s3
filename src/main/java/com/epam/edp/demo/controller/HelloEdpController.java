@@ -4,7 +4,7 @@ import com.epam.edp.demo.service.S3DownloadService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
+import java.util.Map;
 
 
 /**
@@ -19,10 +19,20 @@ public class HelloEdpController {
 
     private final S3DownloadService s3DownloadService;
 
-    @GetMapping(value = "/api/hello")
-    public String hello() throws IOException {
+    @GetMapping("/")
+    public Map<String, String> root() {
         String fileName = "data.txt";
-        return s3DownloadService.getTextFileContent(fileName);
+        try {
+            return Map.of("content", s3DownloadService.getTextFileContent(fileName));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Map.of("content", "Error reading file from S3: " + e.getMessage());
+        }
+    }
+
+    @GetMapping(value = "/api/hello")
+    public String hello() {
+        return "Hello, EDP!";
     }
 
 }
