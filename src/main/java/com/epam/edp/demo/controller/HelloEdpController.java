@@ -21,9 +21,9 @@ public class HelloEdpController {
 
     @GetMapping("/")
     public Map<String, String> root() {
-        String fileName = "data.txt";
+        String key = "cmtr-pg09s5mh/data.txt";
         try {
-            return Map.of("content", s3DownloadService.getTextFileContent(fileName));
+            return Map.of("content", s3DownloadService.getTextFileContent(key));
         } catch (Exception e) {
             e.printStackTrace();
             return Map.of("content", "Error reading file from S3: " + e.getMessage());
